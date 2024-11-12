@@ -1,0 +1,76 @@
+<form [formGroup]="pizzaForm" (ngSubmit)="agregarPizza()" class="w-full">
+    <div class="bg-yellow-50 p-8 rounded-lg shadow-lg max-w-full mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="col-span-1">
+                <label for="nombre" class="block text-sm font-medium text-gray-800">Nombre:</label>
+                <input id="nombre" formControlName="nombre" class="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
+                <div *ngIf="pizzaForm.get('nombre')?.invalid && (pizzaForm.get('nombre')?.touched || pizzaForm.get('nombre')?.dirty)">
+                    <small class="error text-red-500">El nombre es obligatorio.</small>
+                </div>
+            </div>
+            <div class="col-span-1">
+                <label for="direccion" class="block text-sm font-medium text-gray-800">Dirección:</label>
+                <input id="direccion" formControlName="direccion" class="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
+                <div *ngIf="pizzaForm.get('direccion')?.invalid && (pizzaForm.get('direccion')?.touched || pizzaForm.get('direccion')?.dirty)">
+                    <small class="error text-red-500">La dirección es obligatoria.</small>
+                </div>
+            </div>
+            <div class="col-span-1">
+                <label for="telefono" class="block text-sm font-medium text-gray-800">Teléfono:</label>
+                <input id="telefono" formControlName="telefono" class="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-red-500" />
+                <div *ngIf="pizzaForm.get('telefono')?.invalid && (pizzaForm.get('telefono')?.touched || pizzaForm.get('telefono')?.dirty)">
+                    <small class="error text-red-500">El teléfono es obligatorio y debe ser numérico.</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-1">
+            <div class="col-span-1 mb-4">
+                <div class="border p-4 rounded-md bg-white shadow-md">
+                    <label class="block text-sm font-medium text-gray-800">Tamaño Pizza:</label>
+                    <div class="mt-2 flex flex-col">
+                        <label class="inline-flex items-center mb-2">
+                            <input type="radio" formControlName="tamanoPizza" value="Chica" class="form-radio mr-2" /> Chica $40
+                        </label>
+                        <label class="inline-flex items-center mb-2">
+                            <input type="radio" formControlName="tamanoPizza" value="Mediana" class="form-radio mr-2" /> Mediana $80
+                        </label>
+                        <label class="inline-flex items-center mb-2">
+                            <input type="radio" formControlName="tamanoPizza" value="Grande" class="form-radio mr-2" /> Grande $120
+                        </label>
+                    </div>
+                    <div *ngIf="pizzaForm.get('tamanoPizza')?.invalid && (pizzaForm.get('tamanoPizza')?.touched || pizzaForm.get('tamanoPizza')?.dirty)">
+                        <small class="error text-red-500">Debes seleccionar un tamaño de pizza.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1 mb-4">
+                <div class="border p-4 rounded-md bg-white shadow-md">
+                    <label class="block text-sm font-medium text-gray-800">Ingredientes:</label>
+                    <div formGroupName="ingredientes" class="mt-2 flex flex-col">
+                        <label class="inline-flex items-center mb-2">
+                            <input type="checkbox" formControlName="jamon" class="form-checkbox mr-2" /> Jamón $10
+                        </label>
+                        <label class="inline-flex items-center mb-2">
+                            <input type="checkbox" formControlName="pina" class="form-checkbox mr-2" /> Piña $10
+                        </label>
+                        <label class="inline-flex items-center mb-2">
+                            <input type="checkbox" formControlName="champinones" class="form-checkbox mr-2" /> Champiñones $10
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-1">
+                <label for="numPizzas" class="block text-sm font-medium text-gray-800">Núm. de Pizzas:</label>
+                <input id="numPizzas" formControlName="numPizzas" class="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500" />
+                <div *ngIf="pizzaForm.get('numPizzas')?.invalid && (pizzaForm.get('numPizzas')?.touched || pizzaForm.get('numPizzas')?.dirty)">
+                    <small class="error text-red-500">El número de pizzas es obligatorio y debe ser mayor a 0.</small>
+                </div>
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4 transition duration-300">Agregar Pizza</button>
+            </div>
+        </div>
+    </div>
+</form>
+  
+  
+  

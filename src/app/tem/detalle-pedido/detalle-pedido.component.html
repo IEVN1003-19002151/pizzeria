@@ -1,0 +1,98 @@
+<div class="grid grid-cols-11 grid-rows-3 gap-0">
+    <div class="col-span-6 row-span-3">
+        <table class="min-w-full bg-white rounded-lg shadow-lg overflow-hidden">
+            <thead class="bg-yellow-300">
+                <tr class="text-left border-b border-gray-300">
+                    <th class="px-4 py-2 font-semibold text-center text-red-600">ID</th>
+                    <th class="px-4 py-2 font-semibold text-center text-red-600">Tamaño</th>
+                    <th class="px-4 py-2 font-semibold text-center text-red-600">Ingredientes</th>
+                    <th class="px-4 py-2 font-semibold text-center text-red-600">Núm. Pizzas</th>
+                    <th class="px-4 py-2 font-semibold text-center text-red-600">Subtotal</th>
+                    <th class="px-4 py-2 font-semibold text-center text-red-600">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pizza of pizzas; let i = index" 
+                    class="bg-yellow-100 border-b cursor-pointer" 
+                    [attr.id]="'pizza-' + pizza.id"
+                    [ngClass]="{'bg-yellow-200': pizza.selected}"
+                    (click)="pizzaEnEdicion !== i && seleccionarPizza(i)">
+                    <td class="px-4 py-2 text-center">{{ i + 1 }}</td>
+                    <td class="px-4 py-2 text-center">
+                        <ng-container *ngIf="pizzaEnEdicion === i; else tamanoNormal">
+                            <select [(ngModel)]="pizza.tamano" class="border p-1 rounded" (click)="$event.stopPropagation()">
+                                <option value="Chica">Chica</option>
+                                <option value="Mediana">Mediana</option>
+                                <option value="Grande">Grande</option>
+                            </select>
+                        </ng-container>
+                        <ng-template #tamanoNormal>{{ pizza.tamano }}</ng-template>
+                    </td>
+                    <td class="px-4 py-2 text-center">
+                        <ng-container *ngIf="pizzaEnEdicion === i; else ingredientesNormal">
+                            <div class="flex flex-col" (click)="$event.stopPropagation()">
+                                <label>
+                                    <input type="checkbox" 
+                                           [checked]="pizza.ingredientes.includes('jamon')"
+                                           (change)="toggleIngrediente(i, 'jamon')"> Jamón
+                                </label>
+                                <label>
+                                    <input type="checkbox" 
+                                           [checked]="pizza.ingredientes.includes('pina')"
+                                           (change)="toggleIngrediente(i, 'pina')"> Piña
+                                </label>
+                                <label>
+                                    <input type="checkbox" 
+                                           [checked]="pizza.ingredientes.includes('champinones')"
+                                           (change)="toggleIngrediente(i, 'champinones')"> Champiñones
+                                </label>
+                            </div>
+                        </ng-container>
+                        <ng-template #ingredientesNormal>
+                            <ul>
+                                <li *ngFor="let ingrediente of pizza.ingredientes">
+                                    {{ ingrediente }}
+                                </li>
+                            </ul>
+                        </ng-template>
+                    </td>
+                    <td class="px-4 py-2 text-center">
+                        <ng-container *ngIf="pizzaEnEdicion === i; else numPizzasNormal">
+                            <input type="number" [(ngModel)]="pizza.numPizzas" min="1" 
+                                   class="border p-1 rounded w-20"
+                                   (click)="$event.stopPropagation()">
+                        </ng-container>
+                        <ng-template #numPizzasNormal>{{ pizza.numPizzas }}</ng-template>
+                    </td>
+                    <td class="px-4 py-2 text-center">{{ calculateSubtotal(pizza) | currency }}</td>
+                    <td class="px-4 py-2 text-center">
+                        <ng-container *ngIf="pizzaEnEdicion === i; else botonesNormales">
+                            <button (click)="guardarEdicion(i); $event.stopPropagation()" 
+                                    class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 mr-2">
+                                Guardar
+                            </button>
+                            <button (click)="cancelarEdicion(); $event.stopPropagation()" 
+                                    class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600">
+                                Cancelar
+                            </button>
+                        </ng-container>
+                        <ng-template #botonesNormales>
+                            <button (click)="iniciarEdicion(i); $event.stopPropagation()" 
+                                    class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">
+                                Editar
+                            </button>
+                        </ng-template>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="flex justify-center mt-2 space-x-8">
+            <button (click)="quitarPizzasSeleccionadas()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Quitar</button>
+            <button (click)="terminarPedido()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Terminar</button>
+        </div>
+    </div>
+    
+    <div class="col-span-5 row-span-3 col-start-7">
+        <app-resumen></app-resumen>
+    </div>
+</div>

@@ -1,13 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { DetallePedidoComponent } from './tem/detalle-pedido/detalle-pedido.component';
+import { ClienteComponent } from './tem/cliente/cliente.component';
+
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
+  standalone: true,
+  imports: [DetallePedidoComponent, ClienteComponent]
+
+
 })
 export class AppComponent {
-  title = 'pizzeria';
+  
 }
+
